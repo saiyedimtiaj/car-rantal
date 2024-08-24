@@ -72,6 +72,14 @@ const Signin = () => {
                             Sign up
                         </Link>
                     </div>
+                    <div className="mt-6">
+                        <p className="text-sm text-gray-500">
+                            By creating an account, you agree to our
+                            <a className="underline cursor-pointer"> terms and conditions </a>
+                            and
+                            <a className=" underline cursor-pointer"> privacy policy</a>.
+                        </p>
+                    </div>
                 </form>
             </div>
             <div className="hidden bg-muted lg:block">

@@ -26,6 +26,8 @@ const Navbar = () => {
                 <div className="hidden lg:flex items-center gap-5">
                     <NavLink to="/" className="text-lg font-medium">Home</NavLink>
                     <NavLink to="/about" className="text-lg font-medium">About Us</NavLink>
+                    <NavLink to="/booking" className="text-lg font-medium">Booking</NavLink>
+                    <NavLink to="/Contact" className="text-lg font-medium">Contact</NavLink>
                 </div>
                 <div className="flex items-center -gap-2">
                     <DropdownMenu>
@@ -33,6 +35,8 @@ const Navbar = () => {
                         <DropdownMenuContent className="mr-3 lg:hidden">
                             <DropdownMenuLabel><NavLink to="/" className="text-lg font-medium">Home</NavLink></DropdownMenuLabel>
                             <DropdownMenuItem><NavLink to="/about" className="text-lg font-medium">About Us</NavLink></DropdownMenuItem>
+                            <DropdownMenuItem><NavLink to="/booking" className="text-lg font-medium">Booking</NavLink></DropdownMenuItem>
+                            <DropdownMenuItem><NavLink to="/contact" className="text-lg font-medium">Contact</NavLink></DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                     <ThemeSwitcher />

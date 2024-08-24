@@ -164,14 +164,6 @@ const Signup = () => {
                                 )}
                             </div>
 
-                            <div className="col-span-6">
-                                <p className="text-sm text-gray-500">
-                                    By creating an account, you agree to our
-                                    <a className="underline cursor-pointer"> terms and conditions </a>
-                                    and
-                                    <a className=" underline cursor-pointer"> privacy policy</a>.
-                                </p>
-                            </div>
 
                             <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                                 <button
@@ -183,6 +175,14 @@ const Signup = () => {
                                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                                     Already have an account?
                                     <Link to="/signin" className="underline">Log in</Link>.
+                                </p>
+                            </div>
+                            <div className="col-span-6">
+                                <p className="text-sm text-gray-500">
+                                    By creating an account, you agree to our
+                                    <a className="underline cursor-pointer"> terms and conditions </a>
+                                    and
+                                    <a className=" underline cursor-pointer"> privacy policy</a>.
                                 </p>
                             </div>
                         </form>
