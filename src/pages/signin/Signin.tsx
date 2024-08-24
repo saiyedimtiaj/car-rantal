@@ -21,7 +21,7 @@ const Signin = () => {
         const data = { email, password }
         try {
             const res = await loginUser(data).unwrap();
-            const userInfo = verifyToken(res.data?.accessToken) as TUser
+            const userInfo = verifyToken(res?.data?.accessToken) as TUser
             dispatch(logInUser({
                 token: res?.data?.accessToken, user: {
                     email: userInfo?.email,
@@ -32,7 +32,7 @@ const Signin = () => {
             navigate('/')
         }
         catch (err) {
-            toast.error((err as any).data.message)
+            toast.error((err as any)?.data?.message)
         }
     }
     return (

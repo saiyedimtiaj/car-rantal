@@ -49,12 +49,11 @@ const Signup = () => {
         }
         try {
             const res = await registerUser(userInfo).unwrap();
-            console.log(res);
-            toast.success(res.message)
+            toast.success(res?.message)
             navigate('/signin')
         }
         catch (err) {
-            toast.error((err as any).data.message)
+            toast.error((err as any)?.data?.message)
         }
     };
 
