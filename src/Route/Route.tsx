@@ -1,5 +1,6 @@
 import Dashboard from "@/layout/Dashboard";
 import Main from "@/layout/Main";
+import AdminDashboard from "@/pages/AdminDashboard/AdminDashboard";
 import ErrorPage from "@/pages/ErrorPage/ErrorPage";
 import Home from "@/pages/Home/Home";
 import Signin from "@/pages/signin/Signin";
@@ -30,7 +31,13 @@ const router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <Dashboard />
+        element: <Dashboard />,
+        children: [
+            {
+                path: '/dashboard',
+                element: <AdminDashboard />
+            }
+        ]
     }
 ]);
 
