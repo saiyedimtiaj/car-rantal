@@ -12,6 +12,7 @@ const Footer = () => {
                             <span className="text-purple-600 dark:text-purple-400">Ride</span>
                         </Link>
                     </div>
+                    <p>Rent a car imperdiet sapien porttito the bibenum ellentesue the commodo erat nesuen.</p>
                     <div className="flex gap-2 mt-3">
                         <span className="border border-gray-800 dark:border-gray-100 cursor-pointer p-2 text-lg rounded-full text-gray-800 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700">
                             <FaFacebookF />

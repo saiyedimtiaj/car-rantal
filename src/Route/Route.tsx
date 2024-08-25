@@ -1,3 +1,4 @@
+import Dashboard from "@/layout/Dashboard";
 import Main from "@/layout/Main";
 import ErrorPage from "@/pages/ErrorPage/ErrorPage";
 import Home from "@/pages/Home/Home";
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     {
         path: '/signin',
         element: <Signin />
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard />
     }
 ]);
 

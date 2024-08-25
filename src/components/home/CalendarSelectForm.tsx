@@ -82,7 +82,7 @@ export function CalendarSelectForm() {
                                 </PopoverContent>
                             </Popover>
                             <FormDescription className="text-start">
-                                Your booking date
+                                Select your preferred booking date
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -96,7 +96,7 @@ export function CalendarSelectForm() {
                             <FormLabel>Select Location</FormLabel>
                             <FormControl>
                                 <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="w-[240px] bg-[#020817] hover:bg-[#111827]">
+                                    <SelectTrigger className="w-[240px] bg-[#FFFFFF] dark:bg-[#020817] hover:bg-[#F3F4F6] dark:hover:bg-[#111827]">
                                         <SelectValue placeholder="Select a Location" />
                                     </SelectTrigger>
                                     <SelectContent>
