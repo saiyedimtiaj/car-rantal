@@ -4,7 +4,6 @@ import {
     LineChart,
     Menu,
     Package,
-    ShoppingCart,
     Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,65 +16,73 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { RiDashboardFill } from "react-icons/ri";
+import { RiAddLine } from "react-icons/ri";
 import ThemeSwitcher from "@/utils/theme-switcher";
 
 const navItems = [
     { to: "/dashboard", label: "Dashboard", icon: RiDashboardFill },
-    { to: "/orders", label: "Orders", icon: ShoppingCart },
+    { to: "/dashboard/manage-car", label: "Manage Cars", icon: RiAddLine },
     { to: "/products", label: "Products", icon: Package },
     { to: "/customers", label: "Customers", icon: Users },
     { to: "/analytics", label: "Analytics", icon: LineChart },
 ];
 
 const Dashboard = () => {
+    const { pathname } = useLocation()
     return (
-        <div className="min-h-screen w-full flex">
-            <div className="hidden border-r bg-muted/40 md:block w-[220px] lg:w-[280px]">
-                <div className="flex min-h-screen sticky top-0 left-0 flex-col gap-4 justify-between">
-                    <div className="flex flex-col gap-2">
-                        <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                            <NavLink to="/" className="flex items-center gap-2 font-semibold">
+        <div className="min-h-screen font-epilogue w-full flex bg-background text-foreground">
+            {/* Sidebar */}
+            <div className="hidden md:block w-[220px] lg:w-[280px] border-r bg-muted/40">
+                <div className="sticky top-0 left-0 min-h-screen flex flex-col justify-between">
+                    <div className="flex flex-col gap-4">
+                        <div className="flex items-center h-14 lg:h-[60px] border-b px-4 lg:px-6">
+                            <NavLink to="/" className="flex items-center gap-2 text-xl font-semibold">
                                 <span>MetroRide</span>
                             </NavLink>
                         </div>
-                        <div className="flex-1">
-                            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                                {navItems.map(({ to, label, icon: Icon }) => (
-                                    <NavLink
-                                        key={to}
-                                        to={to}
-                                        className={({ isActive }) =>
-                                            `flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${isActive
-                                                ? "bg-muted text-primary"
-                                                : "text-muted-foreground hover:text-primary"
-                                            }`
-                                        }
-                                    >
-                                        <Icon className="h-4 w-4" />
-                                        {label}
-                                    </NavLink>
-                                ))}
-                            </nav>
-                        </div>
+                        <nav className="flex-1 px-2 lg:px-4">
+                            {navItems.map(({ to, label, icon: Icon }) => (
+                                <NavLink
+                                    key={to}
+                                    to={to}
+                                    className={() =>
+                                        `flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${pathname === to
+                                            ? "bg-muted text-primary"
+                                            : "text-muted-foreground hover:bg-muted hover:text-primary"
+                                        }`
+                                    }
+                                >
+                                    <Icon className="h-4 w-4" />
+                                    {label}
+                                </NavLink>
+                            ))}
+                        </nav>
                     </div>
+
+                    {/* Sidebar - Bottom */}
                     <div className="px-3 mb-2">
-                        <Link to='/' className="mx-[-0.65rem] flex items-center gap-4 font-medium rounded-xl px-3 py-2 transition-all text-muted-foreground hover:text-foreground">
-                            <Home />
-                            home
+                        <Link
+                            to='/'
+                            className="flex items-center gap-4 rounded-xl px-3 py-2 transition-all text-muted-foreground hover:bg-muted hover:text-foreground"
+                        >
+                            <Home className="h-5 w-5" />
+                            Home
                         </Link>
                     </div>
                 </div>
             </div>
+
+            {/* Main Content */}
             <div className="flex flex-col w-full">
-                <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+                <header className="flex items-center h-14 lg:h-[60px] gap-4 border-b bg-muted/40 px-4 lg:px-6">
                     <Sheet>
                         <SheetTrigger asChild>
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="shrink-0 md:hidden"
+                                className="md:hidden shrink-0"
                             >
                                 <Menu className="h-5 w-5" />
                                 <span className="sr-only">Toggle navigation menu</span>
@@ -87,10 +94,10 @@ const Dashboard = () => {
                                     <NavLink
                                         key={to}
                                         to={to}
-                                        className={({ isActive }) =>
-                                            `mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 transition-all ${isActive
-                                                ? "bg-muted text-foreground"
-                                                : "text-muted-foreground hover:text-foreground"
+                                        className={() =>
+                                            `flex items-center gap-4 rounded-xl px-3 py-2 transition-all ${pathname === to
+                                                ? "dark:bg-muted bg-[#F3F4F6] text-foreground"
+                                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                             }`
                                         }
                                     >
@@ -101,7 +108,7 @@ const Dashboard = () => {
                             </nav>
                         </SheetContent>
                     </Sheet>
-                    <div className="w-full flex-1"></div>
+                    <div className="flex-1 w-full"></div>
                     <div className="flex items-center gap-1">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -122,7 +129,7 @@ const Dashboard = () => {
                         <ThemeSwitcher />
                     </div>
                 </header>
-                <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+                <main className="flex-1 flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                     <Outlet />
                 </main>
             </div>

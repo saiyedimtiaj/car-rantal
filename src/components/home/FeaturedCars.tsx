@@ -1,10 +1,13 @@
 import { useAllCarsQuery } from "@/redux/feature/cars/carsApi";
 import { TCar } from "@/types/car.interface";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { IoLocationSharp } from "react-icons/io5";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { LuUsers } from "react-icons/lu";
+import { MdOutlineLuggage } from "react-icons/md";
+import { GiCarDoor } from "react-icons/gi";
+import { FaCar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const FeaturedCars = () => {
     const { data, isLoading, isFetching } = useAllCarsQuery(undefined);
@@ -38,25 +41,31 @@ const FeaturedCars = () => {
             <div className="grid grid-cols-1 mt-8 gap-5 md:grid-cols-3 lg:grid-cols-4">
                 {data?.data?.map((car: TCar) => (
                     <Card key={car._id}>
-                        <img
-                            className="w-full h-[200px] object-cover"
-                            src="https://img.freepik.com/premium-photo/orange-sports-car-with-license-plate-number-6099_1015384-117429.jpg?w=740"
-                            alt={car.name}
-                        />
                         <CardContent className="px-2 py-3">
-                            <h1 className="text-2xl font-bold">{car.name}</h1>
-                            <div className="flex items-center justify-between pt-2 pb-4">
-                                <h1 className="flex items-center">
-                                    <TbCurrencyTaka size={24} />
-                                    <span className="text-xl font-medium">{car.pricePerHour}</span>
-                                    <span className="text-lg">/Hour</span>
-                                </h1>
-                                <h1 className="flex items-center text-gray-500">
-                                    <IoLocationSharp size={20} />
-                                    <span className="font-medium">Dhaka</span>
-                                </h1>
+                            <img
+                                className="w-full h-[200px] rounded-md object-cover"
+                                src={car.image}
+                                alt={car.name}
+                            />
+                            <h1 className="text-[20px] font-bold mt-2">{car.name}</h1>
+                            <div className="flex items-center justify-between gap-4">
+                                <h1 className="flex items-center text-base gap-1 font-medium text-gray-500"><FaCar /> <span className="mt-1">{car?.category}</span></h1>
+                                <h1 className="flex items-center text-base gap-1 font-medium text-gray-500"><LuUsers /> <span className="mt-1">{car?.passenger}  Passenger</span></h1>
                             </div>
-                            <Button variant="outline" className="w-full">View Details</Button>
+                            <div className="mb-3 flex items-center justify-between gap-4">
+                                <h1 className="flex items-center text-base gap-1 font-medium text-gray-500"><MdOutlineLuggage size={20} /> <span className="mt-1">{car?.luggage} Bag</span></h1>
+                                <h1 className="flex items-center text-base gap-1 font-medium text-gray-500"><GiCarDoor size={20} /> <span className="mt-1">{car?.doors} Doors</span></h1>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <h1 className="flex items-center font-semibold">
+                                    <TbCurrencyTaka size={20} />
+                                    <span className="">{car.pricePerHour}</span>
+                                    <span className="">/Hour</span>
+                                </h1>
+                                <Link to={`/details/${car?._id}`}>
+                                    <button className="bg-purple-600 text-white px-4 py-1.5 text-sm rounded">Details</button>
+                                </Link>
+                            </div>
                         </CardContent>
                     </Card>
                 ))}

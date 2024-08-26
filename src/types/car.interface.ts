@@ -6,8 +6,14 @@ export interface TCar {
   isElectric: boolean;
   features: string[];
   pricePerHour: number;
-  status?: "available" | "unavailable"; // 'status' can be one of these values
-  isDeleted?: boolean; // 'isDeleted' is optional since it has a default value
-  createdAt?: Date; // 'createdAt' is generated automatically by Mongoose
-  updatedAt?: Date; // 'updatedAt' is generated automatically by Mongoose
+  status?: "available" | "unavailable";
+  isDeleted?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  image: string;
+  location: string;
+  category: string;
+  doors: number;
+  passenger: number;
+  luggage: number;
 }

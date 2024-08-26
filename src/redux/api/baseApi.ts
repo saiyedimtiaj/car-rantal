@@ -28,8 +28,9 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
+  console.log(result?.error?.status);
   if (result?.error?.status === 401 || result?.error?.status === 500) {
-    // Send refresh token request
+    console.log("send refresh");
     const refreshResult = await fetch(
       "http://localhost:5000/api/auth/refresh-token",
       {
