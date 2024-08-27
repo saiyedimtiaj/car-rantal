@@ -145,10 +145,10 @@ const AddCar = () => {
                         <SelectComponent
                             name="color"
                             options={[
-                                { value: "White", label: "White" },
-                                { value: "Blue", label: "Blue" },
-                                { value: "Gray", label: "Gray" },
-                                { value: "Black", label: "Black" },
+                                { value: "white", label: "White" },
+                                { value: "blue", label: "Blue" },
+                                { value: "gray", label: "Gray" },
+                                { value: "black", label: "Black" },
                             ]}
                         />
                     </div>

@@ -10,7 +10,7 @@ import { FaCar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const FeaturedCars = () => {
-    const { data, isLoading, isFetching } = useAllCarsQuery(undefined);
+    const { data, isLoading, isFetching } = useAllCarsQuery({});
 
     if (isLoading || isFetching) {
         return (

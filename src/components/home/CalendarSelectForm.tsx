@@ -22,27 +22,29 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "sonner";
+import moment from "moment"
+import { useNavigate } from "react-router-dom";
 
 const FormSchema = z.object({
-    dob: z.date().optional(),
-    location: z.string().optional(),
+    dob: z.date(),
+    location: z.string(),
 });
 
 export function CalendarSelectForm() {
+    const navigate = useNavigate()
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     });
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data);
-        toast.success("You submitted the following values");
+        const startDate = moment(data.dob).format("YYYY-MM-DD");
+        navigate(`/cars?startDate=${startDate}&location=${data?.location}`)
     }
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col md:flex-row items-center gap-5 justify-center rounded-lg bg-[#F3F4F6] dark:bg-[#111827] px-8 py-8 max-w-4xl mx-6 md:mx-auto">
-                {/* Date of Birth Field */}
+                {/* Booking Date Field */}
                 <FormField
                     control={form.control}
                     name="dob"
@@ -88,6 +90,8 @@ export function CalendarSelectForm() {
                         </FormItem>
                     )}
                 />
+
+                {/* Location Field */}
                 <FormField
                     control={form.control}
                     name="location"
@@ -116,7 +120,7 @@ export function CalendarSelectForm() {
                     )}
                 />
 
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Search</Button>
             </form>
         </Form>
     );

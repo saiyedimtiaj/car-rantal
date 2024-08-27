@@ -1,5 +1,6 @@
 import { MdCheck } from "react-icons/md";
 import { FaCar, FaCrown, FaBolt, FaSubway } from "react-icons/fa";
+import ContactInfo from "@/components/ContactInfo/ContactInfo";
 
 const team = [
     {
@@ -155,6 +156,7 @@ const About = () => {
                     }
                 </div>
             </div>
+            <ContactInfo />
         </div>
     );
 };

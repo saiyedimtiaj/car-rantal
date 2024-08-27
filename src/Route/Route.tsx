@@ -10,6 +10,7 @@ import CarDetails from "@/pages/CarDetails/CarDetails";
 import ErrorPage from "@/pages/ErrorPage/ErrorPage";
 import Home from "@/pages/Home/Home";
 import ManageCars from "@/pages/ManageCars/ManageCars";
+import ManageReturn from "@/pages/ManageReturn/ManageReturn";
 import MyBookings from "@/pages/MyBookings/MyBookings";
 import UserDashboard from "@/pages/UserDashboard/UserDashboard";
 import AllUsers from "@/pages/Users/AllUsers";
@@ -69,8 +70,12 @@ const router = createBrowserRouter([
                 element: <AdminDashboard />
             },
             {
-                path: "/dashboard/manage-car",
+                path: "/dashboard/all-cars",
                 element: <ManageCars />
+            },
+            {
+                path: "/dashboard/manage-cars",
+                element: <ManageReturn />
             },
             {
                 path: '/dashboard/add-car',

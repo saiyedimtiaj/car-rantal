@@ -1,10 +1,25 @@
 import { baseApi } from "@/redux/api/baseApi";
 
+// Helper function to convert an object to a query string
+const createQueryString = (params: Record<string, string | undefined>) => {
+  // Filter out undefined values from the params object
+  const filteredParams: Record<string, string> = Object.fromEntries(
+    Object.entries(params).filter(([_, value]) => value !== undefined) as [
+      string,
+      string
+    ][]
+  );
+
+  // Convert the filtered object to a query string
+  const queryString = new URLSearchParams(filteredParams).toString();
+  return queryString ? `?${queryString}` : "";
+};
+
 const carsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     allCars: builder.query({
-      query: () => ({
-        url: "/cars",
+      query: (params) => ({
+        url: `/cars${createQueryString(params)}`,
         method: "GET",
       }),
     }),
@@ -21,8 +36,19 @@ const carsApi = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
+    manageAllCars: builder.query({
+      query: () => ({
+        url: `/cars/manage-cars`,
+        method: "GET",
+      }),
+      providesTags: ["car"],
+    }),
   }),
 });
 
-export const { useAllCarsQuery, useCreateCarMutation, useGetSingleCarQuery } =
-  carsApi;
+export const {
+  useAllCarsQuery,
+  useCreateCarMutation,
+  useGetSingleCarQuery,
+  useManageAllCarsQuery,
+} = carsApi;

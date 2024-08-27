@@ -9,13 +9,37 @@ import { IoIosSearch } from "react-icons/io";
 import { LuUsers } from "react-icons/lu";
 import { MdOutlineLuggage } from "react-icons/md";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const AllCars = () => {
-    const { data, isLoading, isFetching } = useAllCarsQuery(undefined);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [params, setParams] = useState(() => {
+        return Object.fromEntries([...searchParams]);
+    });
+
+    const { data, isLoading, isFetching } = useAllCarsQuery(params);
+
+    useEffect(() => {
+        setSearchParams(params, { replace: true });
+    }, [params, setSearchParams]);
 
     if (isLoading || isFetching) {
         return <p>Loading....</p>;
+    }
+
+    const handleCategory = (category: string) => {
+        setParams((prev) => ({ ...prev, category }));
+    };
+
+    const handleColor = (color: string) => {
+        setParams((prev) => ({ ...prev, color }));
+    };
+
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        setParams((prev) => ({ ...prev, searchTrams: formData.get("search") as string }));
     }
 
     return (
@@ -23,21 +47,23 @@ const AllCars = () => {
             <div className="flex flex-col md:flex-row gap-7 w-full h-full">
                 <div className="md:w-1/4 w-full px-4 py-4 rounded-lg bg-[#F3F4F6] dark:bg-[#111827]">
                     {/* Search Input */}
-                    <div className="relative mt-4 mb-4">
+                    <form className="relative mt-4 mb-4" onSubmit={handleSearch}>
                         <input
                             type="text"
+                            name="search"
+                            defaultValue={params.searchTrams}
                             className="focus:outline-none px-6 py-2.5 w-full rounded-full text-gray-700 dark:text-gray-300 bg-white dark:bg-[#1f2937] placeholder-gray-400 dark:placeholder-gray-500"
                             placeholder="Search..."
                         />
-                        <button className="absolute inset-y-0 bg-purple-600 right-0 flex items-center px-[10px] rounded-full">
+                        <button type="submit" className="absolute inset-y-0 bg-purple-600 right-0 flex items-center px-[10px] rounded-full">
                             <IoIosSearch className="text-white text-2xl" />
                         </button>
-                    </div>
+                    </form>
 
                     {/* Category Filter */}
                     <div className="border-t pt-6 mb-5 border-gray-400 dark:border-gray-800">
                         <h1 className="text-2xl font-semibold mb-3">Category</h1>
-                        <RadioGroup>
+                        <RadioGroup defaultValue={params.category} onValueChange={handleCategory} >
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="suv" id="suv" />
                                 <Label htmlFor="suv">SUV</Label>
@@ -64,7 +90,7 @@ const AllCars = () => {
                     {/* Color Filter */}
                     <div className="border-t pt-6 border-gray-400 pb-5 dark:border-gray-800">
                         <h1 className="text-2xl font-semibold mb-3">Filter Color</h1>
-                        <RadioGroup>
+                        <RadioGroup defaultValue={params.color} onValueChange={handleColor} >
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="white" id="white" />
                                 <Label htmlFor="white">White</Label>

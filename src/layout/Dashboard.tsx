@@ -3,7 +3,6 @@ import {
     Home,
     Menu,
     User,
-    Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,15 +16,17 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { RiDashboardFill } from "react-icons/ri";
-import { RiAddLine } from "react-icons/ri";
 import ThemeSwitcher from "@/utils/theme-switcher";
 import { TbBrandBooking } from "react-icons/tb";
+import { FaCar } from "react-icons/fa";
+import { MdManageHistory } from "react-icons/md";
+
 
 const navItems = [
     { to: "/dashboard", label: "Dashboard", icon: RiDashboardFill },
-    { to: "/dashboard/manage-car", label: "Manage Cars", icon: RiAddLine },
+    { to: "/dashboard/all-cars", label: "All Cars", icon: FaCar },
     { to: "/dashboard/bookings", label: "Bookings", icon: TbBrandBooking },
-    { to: "/customers", label: "Customers", icon: Users },
+    { to: "/dashboard/manage-cars", label: "Manage Cars", icon: MdManageHistory },
     { to: "/dashboard/users", label: "Users", icon: User },
 ];
 
