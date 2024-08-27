@@ -11,7 +11,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { Edit3, PlusCircle, Trash2 } from "lucide-react"
+import { Edit3 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -22,37 +22,43 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { useAllCarsQuery } from "@/redux/feature/cars/carsApi"
-import { TCar } from "@/types/car.interface"
-import { Link } from "react-router-dom"
+import { useGetMyBookingsQuery } from "@/redux/feature/booking/bookingApi"
+import { TBooking } from "@/types/booking.interface"
 
-export const columns: ColumnDef<TCar>[] = [
+export const columns: ColumnDef<TBooking>[] = [
     {
         accessorKey: "image",
         header: () => <div>Image</div>,
         cell: ({ row }) => <div>
-            <img className="w-16 h-16 object-cover" src={row.getValue("image")} alt="" />
+            <img className="w-16 h-16 object-cover rounded" src={row.original.car.image} alt="" />
         </div>,
     },
     {
         accessorKey: "name",
-        header: () => <div>Name</div>,
+        header: () => <div>Model</div>,
         cell: ({ row }) => <div className="font-medium">
-            {row.getValue("name")}
+            {row.original.car.name}
         </div>,
     },
     {
-        accessorKey: "status",
-        header: () => <div>Status</div>,
+        accessorKey: "date",
+        header: () => <div>Date</div>,
         cell: ({ row }) => {
-            return <div className="font-medium">{row.getValue("status")}</div>
+            return <div className="font-medium">{row.original.date}</div>
         },
     },
     {
-        accessorKey: "pricePerHour",
-        header: () => <div>Price</div>,
+        accessorKey: "time",
+        header: () => <div>Start Time</div>,
         cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("pricePerHour"))
+            return <div className="font-medium">{row.original.startTime}</div>
+        },
+    },
+    {
+        accessorKey: "price",
+        header: () => <div>Total Cost</div>,
+        cell: ({ row }) => {
+            const amount = row.original.totalCost
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "BDT",
@@ -69,24 +75,27 @@ export const columns: ColumnDef<TCar>[] = [
             console.log(id);
             return <div className="flex items-center gap-2">
                 <Button className="px-2 py-0"><Edit3 size={15} /></Button>
-                <Button className="px-2 py-0"><Trash2 size={15} /></Button>
+                <Button className="px-2 py-0">Cancel</Button>
             </div>
         },
     },
 ]
 
-function ManageCars() {
-    const { data, isLoading } = useAllCarsQuery(undefined)
-    const [sorting, setSorting] = React.useState<SortingState>([])
+function MyBookings() {
+    const { data, isLoading } = useGetMyBookingsQuery(undefined);
+    const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
-    )
+    );
     const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({})
-    const [rowSelection, setRowSelection] = React.useState({})
+        React.useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = React.useState({});
+
+    // Ensure that data is available before passing it to useReactTable
+    const tableData = data?.data ?? []; // Provide an empty array if data is undefined
 
     const table = useReactTable({
-        data: data?.data,
+        data: tableData,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -102,43 +111,30 @@ function ManageCars() {
             columnVisibility,
             rowSelection,
         },
-    })
+    });
 
     if (isLoading) {
-        return <p>Loading....</p>
+        return <p>Loading....</p>;
     }
 
     return (
-        <div className="w-full">
-            <div className="mb-4">
-                <h1 className="text-3xl font-semibold">Cars</h1>
-                <p>Manage your Cars and view their sales performance.</p>
-            </div>
-            <Link to='/dashboard/add-car' className="flex justify-end mb-4">
-                <Button size="sm" className="h-8 gap-1">
-                    <PlusCircle className="h-3.5 w-3.5" />
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                        Add Product
-                    </span>
-                </Button>
-            </Link>
+        <div className="container mx-auto px-4 font-epilogue mt-12">
+            <h1 className="text-3xl font-semibold md:text-5xl text-center mb-8">Bookings Management</h1>
             <div className="border">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <TableHead key={header.id}>
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                        </TableHead>
-                                    )
-                                })}
+                                {headerGroup.headers.map((header) => (
+                                    <TableHead key={header.id}>
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
+                                    </TableHead>
+                                ))}
                             </TableRow>
                         ))}
                     </TableHeader>
@@ -197,7 +193,7 @@ function ManageCars() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default ManageCars
+export default MyBookings;

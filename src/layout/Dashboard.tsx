@@ -1,9 +1,8 @@
 import {
     CircleUser,
     Home,
-    LineChart,
     Menu,
-    Package,
+    User,
     Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,13 +19,14 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { RiDashboardFill } from "react-icons/ri";
 import { RiAddLine } from "react-icons/ri";
 import ThemeSwitcher from "@/utils/theme-switcher";
+import { TbBrandBooking } from "react-icons/tb";
 
 const navItems = [
     { to: "/dashboard", label: "Dashboard", icon: RiDashboardFill },
     { to: "/dashboard/manage-car", label: "Manage Cars", icon: RiAddLine },
-    { to: "/products", label: "Products", icon: Package },
+    { to: "/dashboard/bookings", label: "Bookings", icon: TbBrandBooking },
     { to: "/customers", label: "Customers", icon: Users },
-    { to: "/analytics", label: "Analytics", icon: LineChart },
+    { to: "/dashboard/users", label: "Users", icon: User },
 ];
 
 const Dashboard = () => {

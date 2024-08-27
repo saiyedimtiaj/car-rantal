@@ -160,7 +160,7 @@ const AddCar = () => {
                                 { value: "sub", label: "SUV" },
                                 { value: "hybrid", label: "Hybrid" },
                                 { value: "sedan", label: "Sedan" },
-                                { value: "coupe", label: "Coupe" },
+                                { value: "coupel", label: "Coupel" },
                                 { value: "luxury", label: "Luxury" },
                             ]}
                         />
