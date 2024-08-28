@@ -21,7 +21,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { useAllCarsQuery } from "@/redux/feature/cars/carsApi"
+import { useManageAllCarsQuery } from "@/redux/feature/cars/carsApi"
 import { TCar } from "@/types/car.interface"
 
 export const columns: ColumnDef<TCar>[] = [
@@ -60,7 +60,7 @@ export const columns: ColumnDef<TCar>[] = [
 ]
 
 function ManageReturn() {
-    const { data, isLoading } = useAllCarsQuery(undefined)
+    const { data, isLoading } = useManageAllCarsQuery(undefined)
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -70,7 +70,7 @@ function ManageReturn() {
     const [rowSelection, setRowSelection] = React.useState({})
 
     const table = useReactTable({
-        data: data?.data,
+        data: data?.data || [],
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,

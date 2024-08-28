@@ -90,8 +90,8 @@ const UserDashboard = () => {
     }
 
     return (
-        <div className="container font-epilogue mx-auto px-4 flex gap-8 mt-14">
-            <div className="w-full md:w-1/3 lg:w-1/4 dark:bg-[#111827] bg-[#F3F4F6] px-4 py-7 rounded-lg">
+        <div className="font-epilogue px-4 flex gap-8 mt-14">
+            <div className="md:w-[770px] w-full mx-auto dark:bg-[#111827] bg-[#F3F4F6] px-4 py-7 rounded-lg">
                 <div className="flex items-center justify-between border-b border-gray-500 pb-3">
                     <h1 className="text-[22px] font-semibold">Profile</h1>
                     <button onClick={() => setEdit(!edit)}><Edit /></button>
@@ -133,21 +133,25 @@ const UserDashboard = () => {
                                 </>
                             )}
                         </div>
-                        <div className="mt-2">
-                            <Label>Name</Label>
-                            <Input name="name" value={formData.name} onChange={handleChange} className="dark:bg-black bg-white" />
+                        <div className="flex items-center gap-5 flex-col md:flex-row">
+                            <div className="mt-4 md:w-1/2 w-full">
+                                <Label>Name</Label>
+                                <Input name="name" value={formData.name} onChange={handleChange} className="dark:bg-black bg-white" />
+                            </div>
+                            <div className="mt-4 md:w-1/2 w-full">
+                                <Label>Email</Label>
+                                <Input name="email" value={formData.email} disabled className="dark:bg-black bg-white" />
+                            </div>
                         </div>
-                        <div className="mt-2">
-                            <Label>Email</Label>
-                            <Input name="email" value={formData.email} disabled className="dark:bg-black bg-white" />
-                        </div>
-                        <div className="mt-2">
-                            <Label>Phone</Label>
-                            <Input name="phone" value={formData.phone} onChange={handleChange} className="dark:bg-black bg-white" />
-                        </div>
-                        <div className="mt-2">
-                            <Label>Address</Label>
-                            <Input name="address" value={formData.address} onChange={handleChange} className="dark:bg-black bg-white" />
+                        <div className="flex items-center gap-5 flex-col md:flex-row">
+                            <div className="mt-4 md:w-1/2 w-full">
+                                <Label>Phone</Label>
+                                <Input name="phone" value={formData.phone} onChange={handleChange} className="dark:bg-black bg-white" />
+                            </div>
+                            <div className="mt-4 md:w-1/2 w-full">
+                                <Label>Address</Label>
+                                <Input name="address" value={formData.address} onChange={handleChange} className="dark:bg-black bg-white" />
+                            </div>
                         </div>
                         <button type="submit" disabled={!isFormChanged()} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded disabled:bg-gray-400">
                             {updateLoading ? "Loading...." : "Update Profile"}
@@ -158,26 +162,29 @@ const UserDashboard = () => {
                         <div className="flex justify-center mt-5">
                             <img src={data?.data?.image ? data?.data?.image : profile} alt="" className="rounded-full w-24 h-24" />
                         </div>
-                        <div className="mt-4">
-                            <p>Name:</p>
-                            <h5 className="text-gray-500 font-medium text-lg">{data?.data?.name}</h5>
+                        <div className="flex items-center gap-5 mt-5 flex-col md:flex-row">
+                            <div className="mt-4 md:w-1/2 w-full">
+                                <p>Name:</p>
+                                <h5 className="text-gray-500 font-medium text-lg">{data?.data?.name}</h5>
+                            </div>
+                            <div className="mt-4 md:w-1/2 w-full">
+                                <p>Email:</p>
+                                <h5 className="text-gray-500 font-medium text-lg">{data?.data?.email}</h5>
+                            </div>
                         </div>
-                        <div className="mt-4">
-                            <p>Email:</p>
-                            <h5 className="text-gray-500 font-medium text-lg">{data?.data?.email}</h5>
-                        </div>
-                        <div className="mt-4">
-                            <p>Phone:</p>
-                            <h5 className="text-gray-500 font-medium text-lg">{data?.data?.phone || "null"}</h5>
-                        </div>
-                        <div className="mt-4">
-                            <p>Address:</p>
-                            <h5 className="text-gray-500 font-medium text-lg">{data?.data?.address || "null"}</h5>
+                        <div className="flex items-center gap-5 flex-col md:flex-row">
+                            <div className="mt-4 md:w-1/2 w-full">
+                                <p>Phone:</p>
+                                <h5 className="text-gray-500 font-medium text-lg">{data?.data?.phone || "null"}</h5>
+                            </div>
+                            <div className="mt-4 md:w-1/2 w-full">
+                                <p>Address:</p>
+                                <h5 className="text-gray-500 font-medium text-lg">{data?.data?.address || "null"}</h5>
+                            </div>
                         </div>
                     </div>
                 )}
             </div>
-            <div className="w-full md:w-2/3 lg:w-3/4"></div>
         </div>
     );
 };

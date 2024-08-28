@@ -22,67 +22,19 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { useGetMyBookingsQuery } from "@/redux/feature/booking/bookingApi"
+import { useGetMyBookingsQuery, useRejectBookingMutation } from "@/redux/feature/booking/bookingApi"
 import { TBooking } from "@/types/booking.interface"
+import { Badge } from "@/components/ui/badge"
+import { CaretSortIcon } from "@radix-ui/react-icons"
+import UpdateBookingModal from "@/components/Dialog/UpdateBookingModal"
+import { toast } from "sonner"
 
-export const columns: ColumnDef<TBooking>[] = [
-    {
-        accessorKey: "image",
-        header: () => <div>Image</div>,
-        cell: ({ row }) => <div>
-            <img className="w-16 h-16 object-cover rounded" src={row.original.car.image} alt="" />
-        </div>,
-    },
-    {
-        accessorKey: "name",
-        header: () => <div>Model</div>,
-        cell: ({ row }) => <div className="font-medium">
-            {row.original.car.name}
-        </div>,
-    },
-    {
-        accessorKey: "date",
-        header: () => <div>Date</div>,
-        cell: ({ row }) => {
-            return <div className="font-medium">{row.original.date}</div>
-        },
-    },
-    {
-        accessorKey: "time",
-        header: () => <div>Start Time</div>,
-        cell: ({ row }) => {
-            return <div className="font-medium">{row.original.startTime}</div>
-        },
-    },
-    {
-        accessorKey: "price",
-        header: () => <div>Total Cost</div>,
-        cell: ({ row }) => {
-            const amount = row.original.totalCost
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "BDT",
-            }).format(amount)
-
-            return <div className="font-medium">{formatted}</div>
-        },
-    },
-    {
-        accessorKey: "Action",
-        header: () => <div>Action</div>,
-        cell: ({ row }) => {
-            const id = row.original._id;
-            console.log(id);
-            return <div className="flex items-center gap-2">
-                <Button className="px-2 py-0"><Edit3 size={15} /></Button>
-                <Button className="px-2 py-0">Cancel</Button>
-            </div>
-        },
-    },
-]
 
 function MyBookings() {
     const { data, isLoading } = useGetMyBookingsQuery(undefined);
+    const [isOpen, setIsOpen] = React.useState(false)
+    const [rejectBooking] = useRejectBookingMutation()
+    const [bookingData, setBookingData] = React.useState<TBooking | null>(null)
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -91,11 +43,96 @@ function MyBookings() {
         React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
 
-    // Ensure that data is available before passing it to useReactTable
-    const tableData = data?.data ?? []; // Provide an empty array if data is undefined
+    const handleReject = async (id: string) => {
+        try {
+            const res = await rejectBooking(id).unwrap()
+            toast.success(res.message)
+        }
+        catch (err: any) {
+            toast.error(err?.data?.message)
+        }
+    }
+
+    const columns: ColumnDef<TBooking>[] = [
+        {
+            accessorKey: "image",
+            header: () => <div>Image</div>,
+            cell: ({ row }) => <div>
+                <img className="w-16 h-16 object-cover rounded" src={row.original.car.image} alt="" />
+            </div>,
+        },
+        {
+            accessorKey: "name",
+            header: () => <div>Model</div>,
+            cell: ({ row }) => <div className="font-medium">
+                {row.original.car.name}
+            </div>,
+        },
+        {
+            accessorKey: "date",
+            header: () => <div>Date</div>,
+            cell: ({ row }) => {
+                return <div className="font-medium">{row.original.date}</div>
+            },
+        },
+        {
+            accessorKey: "time",
+            header: () => <div>Start Time</div>,
+            cell: ({ row }) => {
+                return <div className="font-medium">{row.original.startTime}</div>
+            },
+        },
+        {
+            accessorKey: "price",
+            header: () => <div>Total Cost</div>,
+            cell: ({ row }) => {
+                const amount = row.original.totalCost
+                const formatted = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "BDT",
+                }).format(amount)
+
+                return <div className="font-medium">{formatted}</div>
+            },
+        },
+        {
+            accessorKey: "createdAt",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Booked At
+                        <CaretSortIcon className="ml-2 h-4 w-4" />
+                    </Button>
+                )
+            },
+            cell: ({ row }) => {
+                return <div className="font-medium">{row.original.createdAt}</div>
+            },
+        },
+        {
+            accessorKey: "Action",
+            header: () => <div>Action</div>,
+            cell: ({ row }) => {
+                const id = row.original._id;
+                return (
+                    row.original.status === "panding" ? <div className="flex items-center gap-2">
+                        <Button onClick={() => {
+                            setIsOpen(true);
+                            setBookingData(row.original)
+                        }} className="px-2 py-0"><Edit3 size={15} /></Button>
+                        <Button className="px-2 py-0" onClick={() => handleReject(id)}>Cancel</Button>
+                    </div> : <Badge className={row.original.status === "reject" ? "bg-red-600 text-white" : "bg-purple-600 text-white"}>{row.original.status}</Badge>
+
+                )
+            },
+        },
+    ]
 
     const table = useReactTable({
-        data: tableData,
+        data: data?.data,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -139,8 +176,8 @@ function MyBookings() {
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
+                        {table.getRowModel()?.rows?.length ? (
+                            table.getRowModel()?.rows.map((row) => (
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
@@ -170,8 +207,8 @@ function MyBookings() {
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
                 <div className="flex-1 text-sm text-muted-foreground">
-                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
+                    {table.getFilteredSelectedRowModel()?.rows?.length} of{" "}
+                    {table.getFilteredRowModel()?.rows?.length} row(s) selected.
                 </div>
                 <div className="space-x-2">
                     <Button
@@ -192,6 +229,7 @@ function MyBookings() {
                     </Button>
                 </div>
             </div>
+            <UpdateBookingModal setIsOpen={setIsOpen} isOpen={isOpen} bookingData={bookingData} />
         </div>
     );
 }

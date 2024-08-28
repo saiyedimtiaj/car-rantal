@@ -1,6 +1,7 @@
 import { MdCheck } from "react-icons/md";
 import { FaCar, FaCrown, FaBolt, FaSubway } from "react-icons/fa";
-import ContactInfo from "@/components/ContactInfo/ContactInfo";
+import ContactInfo from "@/components/ContactInfo.tsx/ContactInfo";
+import headerBanner from "../../assets/header.png"
 
 const team = [
     {
@@ -62,7 +63,7 @@ const About = () => {
         <div className="container mx-auto px-4 font-epilogue">
             <div className="flex items-start gap-8 flex-col lg:flex-row mt-10">
                 <div className="lg:w-1/2 w-full relative p-4">
-                    <img className="h-3/4 py-10" src="https://webdesignmastery.github.io/RentalX_20-07-24/assets/header.png" alt="Header" />
+                    <img className="h-3/4 py-10" src={headerBanner} alt="Header" />
                     <div className="absolute -z-[99999] rounded-3xl left-1/2 -translate-x-1/2 w-2/3 bg-purple-600 h-full top-0"></div>
                 </div>
                 <div className="lg:w-1/2 w-full">

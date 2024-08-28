@@ -12,4 +12,6 @@ export type TBooking = {
   passport: string;
   license: string;
   address: string;
+  status: string;
+  createdAt: string;
 };

@@ -1,4 +1,4 @@
-import * as React from "react"
+import { useState } from "react"
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -24,66 +24,73 @@ import {
 } from "@/components/ui/table"
 import { useAllCarsQuery } from "@/redux/feature/cars/carsApi"
 import { TCar } from "@/types/car.interface"
+import CarUpdateModal from "@/components/Dialog/CarUpdateModal"
 import { Link } from "react-router-dom"
 
-export const columns: ColumnDef<TCar>[] = [
-    {
-        accessorKey: "image",
-        header: () => <div>Image</div>,
-        cell: ({ row }) => <div>
-            <img className="w-16 h-16 object-cover" src={row.getValue("image")} alt="" />
-        </div>,
-    },
-    {
-        accessorKey: "name",
-        header: () => <div>Name</div>,
-        cell: ({ row }) => <div className="font-medium">
-            {row.getValue("name")}
-        </div>,
-    },
-    {
-        accessorKey: "status",
-        header: () => <div>Status</div>,
-        cell: ({ row }) => {
-            return <div className="font-medium">{row.getValue("status")}</div>
-        },
-    },
-    {
-        accessorKey: "pricePerHour",
-        header: () => <div>Price</div>,
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("pricePerHour"))
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "BDT",
-            }).format(amount)
-
-            return <div className="font-medium">{formatted}</div>
-        },
-    },
-    {
-        accessorKey: "Action",
-        header: () => <div>Action</div>,
-        cell: ({ row }) => {
-            const id = row.original._id;
-            console.log(id);
-            return <div className="flex items-center gap-2">
-                <Button className="px-2 py-0"><Edit3 size={15} /></Button>
-                <Button className="px-2 py-0"><Trash2 size={15} /></Button>
-            </div>
-        },
-    },
-]
-
 function ManageCars() {
-    const { data, isLoading } = useAllCarsQuery(undefined)
-    const [sorting, setSorting] = React.useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    const { data, isLoading, error } = useAllCarsQuery({});
+    const [isOpen, setIsOpen] = useState(false);
+    const [carId, setCarId] = useState('')
+
+    const [sorting, setSorting] = useState<SortingState>([])
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
         []
     )
     const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({})
-    const [rowSelection, setRowSelection] = React.useState({})
+        useState<VisibilityState>({})
+    const [rowSelection, setRowSelection] = useState({})
+
+    const columns: ColumnDef<TCar>[] = [
+        {
+            accessorKey: "image",
+            header: () => <div>Image</div>,
+            cell: ({ row }) => <div>
+                <img className="w-16 h-16 object-cover" src={row.getValue("image")} alt="" />
+            </div>,
+        },
+        {
+            accessorKey: "name",
+            header: () => <div>Name</div>,
+            cell: ({ row }) => <div className="font-medium">
+                {row.getValue("name")}
+            </div>,
+        },
+        {
+            accessorKey: "status",
+            header: () => <div>Status</div>,
+            cell: ({ row }) => {
+                return <div className="font-medium">{row.getValue("status")}</div>
+            },
+        },
+        {
+            accessorKey: "pricePerHour",
+            header: () => <div>Price</div>,
+            cell: ({ row }) => {
+                const amount = parseFloat(row.getValue("pricePerHour"))
+                const formatted = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "BDT",
+                }).format(amount)
+
+                return <div className="font-medium">{formatted}</div>
+            },
+        },
+        {
+            accessorKey: "Action",
+            header: () => <div>Action</div>,
+            cell: ({ row }) => {
+                const id = row.original._id;
+                console.log(id);
+                return <div className="flex items-center gap-2">
+                    <Button onClick={() => {
+                        setCarId(row.original._id);
+                        setIsOpen(true)
+                    }} className="px-2 py-0"><Edit3 size={15} /></Button>
+                    <Button className="px-2 py-0"><Trash2 size={15} /></Button>
+                </div>
+            },
+        },
+    ]
 
     const table = useReactTable({
         data: data?.data,
@@ -108,6 +115,10 @@ function ManageCars() {
         return <p>Loading....</p>
     }
 
+    if (error) {
+        return "Something went wrong!"
+    }
+
     return (
         <div className="w-full">
             <div className="mb-4">
@@ -122,10 +133,10 @@ function ManageCars() {
                     </span>
                 </Button>
             </Link>
-            <div className="border">
+            <div className="rounded-md border">
                 <Table>
                     <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup) => (
+                        {table?.getHeaderGroups()?.map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
@@ -143,8 +154,8 @@ function ManageCars() {
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
+                        {table?.getRowModel()?.rows?.length ? (
+                            table?.getRowModel()?.rows.map((row) => (
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
@@ -196,8 +207,9 @@ function ManageCars() {
                     </Button>
                 </div>
             </div>
+            <CarUpdateModal id={carId} isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
-    )
-}
+    );
+};
 
 export default ManageCars
