@@ -16,7 +16,7 @@ const Navbar = () => {
     }
 
     return (
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 font-epilogue">
             <div className="flex items-center justify-between gap-4 py-4">
                 <div>
                     <Link to='/' className="text-2xl font-bold">

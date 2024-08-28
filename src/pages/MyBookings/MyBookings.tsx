@@ -28,10 +28,12 @@ import { Badge } from "@/components/ui/badge"
 import { CaretSortIcon } from "@radix-ui/react-icons"
 import UpdateBookingModal from "@/components/Dialog/UpdateBookingModal"
 import { toast } from "sonner"
+import CarReturnModel from "@/components/Dialog/CarReturnModel"
 
 
 function MyBookings() {
     const { data, isLoading } = useGetMyBookingsQuery(undefined);
+    const [isReturnModalOpen, setIsReturnModalOpen] = React.useState(false)
     const [isOpen, setIsOpen] = React.useState(false)
     const [rejectBooking] = useRejectBookingMutation()
     const [bookingData, setBookingData] = React.useState<TBooking | null>(null)
@@ -124,7 +126,10 @@ function MyBookings() {
                             setBookingData(row.original)
                         }} className="px-2 py-0"><Edit3 size={15} /></Button>
                         <Button className="px-2 py-0" onClick={() => handleReject(id)}>Cancel</Button>
-                    </div> : <Badge className={row.original.status === "reject" ? "bg-red-600 text-white" : "bg-purple-600 text-white"}>{row.original.status}</Badge>
+                    </div> : row.original.status === "approve" ? <Button onClick={() => {
+                        setIsReturnModalOpen(true)
+                        setBookingData(row.original)
+                    }}>Return</Button> : row.original.status === "success" ? <Badge className={"bg-purple-600 text-white"}>{row.original.status}</Badge> : <Badge className={"bg-red-600 text-white"}>{row.original.status}</Badge>
 
                 )
             },
@@ -230,6 +235,7 @@ function MyBookings() {
                 </div>
             </div>
             <UpdateBookingModal setIsOpen={setIsOpen} isOpen={isOpen} bookingData={bookingData} />
+            <CarReturnModel isOpen={isReturnModalOpen} setIsOpen={setIsReturnModalOpen} bookingData={bookingData} />
         </div>
     );
 }

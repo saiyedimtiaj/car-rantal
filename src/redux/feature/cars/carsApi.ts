@@ -54,6 +54,25 @@ const carsApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["car"],
     }),
+    returnCarByUser: builder.mutation({
+      query: (payload) => {
+        return {
+          url: `/cars/return`,
+          body: payload,
+          method: "PUT",
+        };
+      },
+      invalidatesTags: ["car"],
+    }),
+    carBack: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/cars/car-back/${id}`,
+          method: "PUT",
+        };
+      },
+      invalidatesTags: ["car"],
+    }),
   }),
 });
 
@@ -63,4 +82,6 @@ export const {
   useGetSingleCarQuery,
   useManageAllCarsQuery,
   useUpdateCarMutation,
+  useReturnCarByUserMutation,
+  useCarBackMutation,
 } = carsApi;

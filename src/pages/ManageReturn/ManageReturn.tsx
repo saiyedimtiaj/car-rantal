@@ -21,53 +21,64 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { useManageAllCarsQuery } from "@/redux/feature/cars/carsApi"
+import { useCarBackMutation, useManageAllCarsQuery } from "@/redux/feature/cars/carsApi"
 import { TCar } from "@/types/car.interface"
+import { toast } from "sonner"
 
-export const columns: ColumnDef<TCar>[] = [
-    {
-        accessorKey: "image",
-        header: () => <div>Image</div>,
-        cell: ({ row }) => <div>
-            <img className="w-16 h-16 object-cover" src={row.getValue("image")} alt="" />
-        </div>,
-    },
-    {
-        accessorKey: "name",
-        header: () => <div>Name</div>,
-        cell: ({ row }) => <div className="font-medium">
-            {row.getValue("name")}
-        </div>,
-    },
-    {
-        accessorKey: "status",
-        header: () => <div>Status</div>,
-        cell: ({ row }) => {
-            return <div className="font-medium">{row.getValue("status")}</div>
-        },
-    },
-    {
-        accessorKey: "Action",
-        header: () => <div>Action</div>,
-        cell: ({ row }) => {
-            const id = row.original._id;
-            console.log(id);
-            return <div className="flex items-center gap-2">
-                <Button className="px-2 py-0">Return</Button>
-            </div>
-        },
-    },
-]
 
 function ManageReturn() {
     const { data, isLoading } = useManageAllCarsQuery(undefined)
     const [sorting, setSorting] = React.useState<SortingState>([])
+    const [carBack] = useCarBackMutation()
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
     )
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
+
+    const handleReturn = async (id: string) => {
+        try {
+            const res = await carBack(id).unwrap()
+            toast.success(res.message)
+        } catch (err: any) {
+            toast.error(err.data?.message)
+        }
+    }
+
+
+    const columns: ColumnDef<TCar>[] = [
+        {
+            accessorKey: "image",
+            header: () => <div>Image</div>,
+            cell: ({ row }) => <div>
+                <img className="w-16 h-16 object-cover" src={row.getValue("image")} alt="" />
+            </div>,
+        },
+        {
+            accessorKey: "name",
+            header: () => <div>Name</div>,
+            cell: ({ row }) => <div className="font-medium">
+                {row.getValue("name")}
+            </div>,
+        },
+        {
+            accessorKey: "status",
+            header: () => <div>Status</div>,
+            cell: ({ row }) => {
+                return <div className="font-medium">{row.getValue("status")}</div>
+            },
+        },
+        {
+            accessorKey: "Action",
+            header: () => <div>Action</div>,
+            cell: ({ row }) => {
+                return <div className="flex items-center gap-2">
+                    <Button onClick={() => handleReturn(row.original._id)} disabled={row.original.status !== "return"} className="px-2 py-0">Return</Button>
+                </div>
+            },
+        },
+    ]
 
     const table = useReactTable({
         data: data?.data || [],
