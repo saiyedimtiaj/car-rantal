@@ -1,50 +1,70 @@
-# React + TypeScript + Vite
+<div align="center">
+  <h1>Car Rental Website</h1>
+</div>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+# Project Name
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Car Rental Website
 
-## Expanding the ESLint configuration
+## Introduction
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+A full-featured car rental website that offers users the ability to browse, book, and manage car rentals online. It includes comprehensive user and admin dashboards for efficient management.
 
-- Configure the top-level `parserOptions` property like this:
+## Project Description
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+This project is a full-stack car rental website designed to streamline the process of renting cars. Users can explore a variety of cars, view detailed information, and book their desired vehicle. The platform supports user authentication, booking management, and secure payment processing. Administrators can manage car listings, handle bookings, and generate reports.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Features
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- Home Page with a hero section, featured cars, and customer testimonials.
+- Car Listing Page with filters and sorting options.
+- Car Details Page with in-depth car information and booking options.
+- About Us Page detailing company history, team, and fleet.
+- Error Page with user-friendly navigation.
+- User Authentication Pages for sign-up and sign-in.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- User Dashboard to manage profile, view booking history, and handle payments.
+
+- Admin Dashboard for car, booking, and user management, along with reporting.
+
+- Comprehensive booking form with car selection, personal details, and payment options.
+- Booking confirmation with a review of details before finalization.
+
+- Fully responsive design for mobile, tablet, and desktop devices.
+- Intuitive navigation and consistent branding elements.
+- Secure payment system integrated with local payment gateways.
+- Theme switcher for dark, light, and system themes.
+
+## Technology Stack
+
+- **Frontend**:
+  - React
+  - Redux
+  - ShadCN UI
+  - Tailwind CSS
+  - Typescript
+- **Backend**:
+  - Node.js
+  - Express
+  - MongoDB (Mongoose)
+  - JWT for Authentication
+
+## Installation Guideline
+
+### Prerequisites
+
+- Node.js (v14 or later)
+- MongoDB (local or cloud-based)
+- npm or yarn package manager
+
+### Installation Steps
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/saiyedimtiaj/car-rantal.git
+   cd car-rental-website
+   npm i
+   npm run dev
+   ```
