@@ -21,6 +21,7 @@ import { format } from "date-fns";
 import moment from "moment"
 import { useCreateBookingMutation } from "@/redux/feature/booking/bookingApi";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     isOpen: boolean;
@@ -37,6 +38,7 @@ type FormValues = {
 };
 
 const BookingModal = ({ isOpen, setIsOpen, id }: Props) => {
+    const navigate = useNavigate()
     const [createBooking, { isLoading }] = useCreateBookingMutation()
     const { register, handleSubmit, control, setValue, formState: { errors } } = useForm<FormValues>({
         defaultValues: {
@@ -61,6 +63,7 @@ const BookingModal = ({ isOpen, setIsOpen, id }: Props) => {
             }
             const res = await createBooking(bookingData).unwrap()
             toast.success(res.message)
+            navigate('/my-booking')
         } catch (err: any) {
             toast.error(err?.data?.message)
         }

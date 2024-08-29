@@ -22,7 +22,6 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-///
 const baseQueryWithRefreshToken: BaseQueryFn<
   FetchArgs,
   BaseQueryApi,
