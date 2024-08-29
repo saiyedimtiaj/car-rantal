@@ -29,7 +29,7 @@ const bookingApi = baseApi.injectEndpoints({
         url: `/bookings/booking-approve/${id}`,
         method: "PATCH",
       }),
-      invalidatesTags: ["booking"],
+      invalidatesTags: ["booking", "car"],
     }),
     rejectBooking: builder.mutation({
       query: (id) => ({

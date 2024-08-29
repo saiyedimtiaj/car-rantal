@@ -18,7 +18,7 @@ const createQueryString = (params: Record<string, string | undefined>) => {
 const carsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     allCars: builder.query({
-      query: (params) => ({
+      query: (params = {}) => ({
         url: `/cars${createQueryString(params)}`,
         method: "GET",
       }),
@@ -29,6 +29,7 @@ const carsApi = baseApi.injectEndpoints({
         url: `/cars/cars/${id}`,
         method: "GET",
       }),
+      providesTags: ["car"],
     }),
     createCar: builder.mutation({
       query: (data) => ({
@@ -36,6 +37,7 @@ const carsApi = baseApi.injectEndpoints({
         body: data,
         method: "POST",
       }),
+      invalidatesTags: ["car"],
     }),
     manageAllCars: builder.query({
       query: () => ({

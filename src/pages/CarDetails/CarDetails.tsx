@@ -6,15 +6,11 @@ import { LuUsers } from "react-icons/lu";
 import { GiCarDoor } from "react-icons/gi";
 import { MdOutlineLuggage } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
-import BookingModal from "@/components/Dialog/BookingModal";
-import { useAppSelector } from "@/redux/hooks";
 
 const CarDetails = () => {
     const { id } = useParams();
     const { data, isLoading } = useGetSingleCarQuery(id);
     const [isZoomed, setIsZoomed] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-    const { user } = useAppSelector(state => state.auth)
 
     if (isLoading) {
         return <p>Loading....</p>;
@@ -29,7 +25,7 @@ const CarDetails = () => {
     };
 
     return (
-        <div className="container mx-auto font-epilogue flex gap-8 px-4 mt-16">
+        <div className="container mx-auto font-epilogue flex flex-col md:flex-row gap-8 px-4 mt-16">
             <div className="md:w-2/3 w-full">
                 <div
                     className={`relative overflow-hidden rounded-3xl ${isZoomed ? "zoomed" : ""}`}
@@ -85,36 +81,36 @@ const CarDetails = () => {
 
             {/* Sidebar */}
             <div className="md:w-1/3 w-full h-[450px] sticky top-10 left-0 bg-[#F3F4F6] px-4 py-7 rounded-xl dark:bg-[#111827]">
-                <div className="flex items-end border-b border-gray-300 pb-7">
+                <div className="flex items-end border-b border-gray-300 pb-4 lg:pb-7">
                     <h1 className="flex items-center text-5xl font-bold">
-                        <TbCurrencyTaka className="-mr-2 text-[50px]" />
+                        <TbCurrencyTaka className="-mr-2 text-[40px] lg:text-[50px]" />
                         {data?.data?.pricePerHour}
                     </h1>
                     <p className="text-gray-500 font-medium">/Rent per Hour</p>
                 </div>
                 <div className="mt-3">
                     <div className="flex items-center justify-between text-lg gap-4">
-                        <h1 className="flex items-center justify-between text-base gap-1 font-medium text-gray-500">
+                        <h1 className="flex items-center justify-between text-sm lg:text-base gap-1 font-medium text-gray-500">
                             <LuUsers /> <span className="mt-1">Passenger</span>
                         </h1>
                         <h1 className="font-semibold text-gray-500">{data?.data?.passenger}</h1>
                     </div>
                     <div className="flex items-center justify-between mt-2 text-lg gap-4">
-                        <h1 className="flex items-center justify-between text-base gap-1 font-medium text-gray-500">
+                        <h1 className="flex items-center justify-between text-sm lg:text-base gap-1 font-medium text-gray-500">
                             <GiCarDoor /> <span className="mt-1">Doors</span>
                         </h1>
                         <h1 className="font-semibold text-gray-500">{data?.data?.doors}</h1>
                     </div>
                     <div className="flex items-center justify-between mt-2 text-lg gap-4">
-                        <h1 className="flex items-center justify-between text-base gap-1 font-medium text-gray-500">
+                        <h1 className="flex items-center justify-between text-sm lg:text-base gap-1 font-medium text-gray-500">
                             <MdOutlineLuggage /> <span className="mt-1">Luggage</span>
                         </h1>
                         <h1 className="font-semibold text-gray-500">{data?.data?.luggage}</h1>
                     </div>
                 </div>
                 <div className="mt-3 border-t border-gray-500 pt-3">
-                    <h2 className="text-xl font-semibold mb-2">Additional Features</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <h2 className="lg:text-xl text-lg font-semibold mb-2">Additional Features</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 lg:gap-2">
                         <label className="flex items-center gap-2">
                             <input type="checkbox" className="accent-purple-600" />
                             Insurance
@@ -133,15 +129,12 @@ const CarDetails = () => {
                         </label>
                     </div>
                 </div>
-                <div className="border-t border-gray-300 mt-3 pt-3">
-                    {
-                        user ? <button onClick={() => setIsOpen(true)} className="text-white px-5 py-2 rounded font-medium text-lg bg-purple-600">Book Now</button> : <Link to='/signup'>
-                            <button onClick={() => setIsOpen(true)} className="text-white px-5 py-2 rounded font-medium text-lg bg-purple-600">Book Now</button>
-                        </Link>
-                    }
+                <div className="border-t border-gray-300 lg:mt-3 lg:pt-3 mt-2 pt-2">
+                    <Link to='/booking'>
+                        <button className="text-white px-5 py-2 rounded font-medium text-lg bg-purple-600">Book Now</button>
+                    </Link>
                 </div>
             </div>
-            <BookingModal isOpen={isOpen} setIsOpen={setIsOpen} id={id as string} />
         </div>
     );
 };

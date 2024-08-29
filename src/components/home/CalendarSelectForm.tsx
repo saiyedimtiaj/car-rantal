@@ -38,7 +38,7 @@ export function CalendarSelectForm() {
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
         const startDate = moment(data.dob).format("YYYY-MM-DD");
-        navigate(`/cars?startDate=${startDate}&location=${data?.location}`)
+        navigate(`/booking?startDate=${startDate}&location=${data?.location}`)
     }
 
     return (

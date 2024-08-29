@@ -20,6 +20,8 @@ import ThemeSwitcher from "@/utils/theme-switcher";
 import { TbBrandBooking } from "react-icons/tb";
 import { FaCar } from "react-icons/fa";
 import { MdManageHistory } from "react-icons/md";
+import { useAppDispatch } from "@/redux/hooks";
+import { logOutUser } from "@/redux/feature/auth/authSlice";
 
 
 const navItems = [
@@ -31,7 +33,12 @@ const navItems = [
 ];
 
 const Dashboard = () => {
-    const { pathname } = useLocation()
+    const { pathname } = useLocation();
+    const distatch = useAppDispatch();
+    const handleLogout = () => {
+        distatch(logOutUser())
+    }
+
     return (
         <div className="min-h-screen font-epilogue w-full flex bg-background text-foreground">
             {/* Sidebar */}
@@ -121,10 +128,14 @@ const Dashboard = () => {
                             <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem>Settings</DropdownMenuItem>
-                                <DropdownMenuItem>Support</DropdownMenuItem>
+                                <Link to='/user-dashboard'>
+                                    <DropdownMenuItem>User Dashboard</DropdownMenuItem>
+                                </Link>
+                                <Link to='/my-bookings'>
+                                    <DropdownMenuItem>My Bookings</DropdownMenuItem>
+                                </Link>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem>Logout</DropdownMenuItem>
+                                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                         <ThemeSwitcher />

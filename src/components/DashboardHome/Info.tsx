@@ -15,7 +15,7 @@ const Info = () => {
                     {isLoading ? (
                         <h1 className="h-6 w-24 bg-gray-200 animate-pulse rounded"></h1>
                     ) : (
-                        <h1 className="text-2xl font-bold">${data?.data?.revenue}</h1>
+                        <h1 className="text-2xl font-bold">৳ {data?.data?.revenue.toFixed(2)}</h1>
                     )}
                 </CardContent>
             </Card>

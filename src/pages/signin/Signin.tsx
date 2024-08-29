@@ -51,16 +51,15 @@ const Signin = () => {
                             <Input
                                 id="email"
                                 type="email"
-                                placeholder="m@example.com"
+                                placeholder="john@example.com"
                                 required
-                                defaultValue="saiyed@gmail.com"
                             />
                         </div>
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
                             </div>
-                            <Input id="password" type="password" defaultValue="123456" required />
+                            <Input id="password" type="password" placeholder="******" required />
                         </div>
                         <Button type="submit" className="w-full">
                             Login

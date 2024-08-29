@@ -29,7 +29,7 @@ const Navbar = () => {
                     <NavLink to="/about" className="text-lg font-medium">About Us</NavLink>
                     <NavLink to="/cars" className="text-lg font-medium">Cars</NavLink>
                     <NavLink to="/booking" className="text-lg font-medium">Booking</NavLink>
-                    <NavLink to="/Contact" className="text-lg font-medium">Contact</NavLink>
+                    <NavLink to="/contact" className="text-lg font-medium">Contact</NavLink>
                 </div>
                 <div className="flex items-center -gap-2">
                     <DropdownMenu>

@@ -6,7 +6,9 @@ import AddCar from "@/pages/AddCar/AddCar";
 import AdminDashboard from "@/pages/AdminDashboard/AdminDashboard";
 import AllBookings from "@/pages/AllBookings/AllBookings";
 import AllCars from "@/pages/AllCars/AllCars";
+import Booking from "@/pages/Booking/Booking";
 import CarDetails from "@/pages/CarDetails/CarDetails";
+import Contact from "@/pages/Contact/Contact";
 import ErrorPage from "@/pages/ErrorPage/ErrorPage";
 import Home from "@/pages/Home/Home";
 import ManageCars from "@/pages/ManageCars/ManageCars";
@@ -50,6 +52,14 @@ const router = createBrowserRouter([
             {
                 path: "/my-bookings",
                 element: <UserProtacted> <MyBookings /></UserProtacted>
+            },
+            {
+                path: "/booking",
+                element: <UserProtacted> <Booking /></UserProtacted>
+            },
+            {
+                path: "/contact",
+                element: <Contact />
             }
         ]
     },

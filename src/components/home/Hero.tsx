@@ -8,7 +8,7 @@ const Hero = () => {
                 <div className="max-w-[500px] ">
                     <h1 className="text-4xl font-bold">Easy and fast way to <br /> <span className="text-purple-600">Rent</span> a car with MetroRide</h1>
                     <p className="text-gray-60 mt-3 mb-3 text-[17px] font-normal">We offer a wide extend of rental cars to suit your needs.Wather you'ar arrenging a weekend travle or a buisness trip.</p>
-                    <Link to="/cars">
+                    <Link to="/booking">
                         <button className="text-white font-medium px-5 py-2 rounded bg-purple-600">Book Now</button>
                     </Link>
                 </div>
