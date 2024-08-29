@@ -10,7 +10,7 @@ import {
 import { RootState } from "../store"; // Import your action to update the token in the store
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://assingment-3-eight.vercel.app/api",
+  baseUrl: "http://localhost:5000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -32,7 +32,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   if (result?.error?.status === 401 || result?.error?.status === 500) {
     console.log("send refresh");
     const refreshResult = await fetch(
-      "https://assingment-3-eight.vercel.app/api/auth/refresh-token",
+      "http://localhost:5000/api/auth/refresh-token",
       {
         method: "POST",
         credentials: "include",
