@@ -4,13 +4,20 @@
 
 ---
 
-# Project Name
+# MetroRide
 
 Car Rental Website
 
 ## Introduction
 
 A full-featured car rental website that offers users the ability to browse, book, and manage car rentals online. It includes comprehensive user and admin dashboards for efficient management.
+
+## Admin Account
+
+```bash
+   Email: saiyed@gmail.com
+   password: 123456
+```
 
 ## Project Description
 

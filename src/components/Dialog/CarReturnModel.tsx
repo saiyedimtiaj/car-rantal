@@ -56,7 +56,7 @@ const CarReturnModel = ({ isOpen, setIsOpen, bookingData }: Props) => {
                             <Input type="time" name="endTime" min={bookingData?.startTime} />
                         </div>
                     </div>
-                    <Button className="mt-4">{isLoading ? "Loading..." : "Return"}</Button>
+                    <Button className="mt-4">{isLoading ? "Loading..." : "Pay"}</Button>
                 </form>
             </DialogContent>
         </Dialog>
