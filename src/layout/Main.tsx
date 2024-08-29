@@ -6,8 +6,10 @@ import { Outlet } from "react-router-dom";
 const Main = () => {
     return (
         <div>
-            <Navbar />
-            <Outlet />
+            <div className="min-h-[calc(100vh-68px)]">
+                <Navbar />
+                <Outlet />
+            </div>
             <Footer />
         </div>
     );
