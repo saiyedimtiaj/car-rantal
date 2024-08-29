@@ -74,7 +74,7 @@ function ManageReturn() {
             header: () => <div>Action</div>,
             cell: ({ row }) => {
                 return <div className="flex items-center gap-2">
-                    <Button onClick={() => handleReturn(row.original._id)} disabled={row.original.status !== "return"} className="px-2 py-0">Return</Button>
+                    <Button onClick={() => handleReturn(row.original._id)} disabled={row.original.status !== "unavailable"} className="px-2 py-0">Return</Button>
                 </div>
             },
         },
