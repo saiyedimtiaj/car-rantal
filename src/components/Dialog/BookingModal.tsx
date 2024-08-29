@@ -63,7 +63,7 @@ const BookingModal = ({ isOpen, setIsOpen, id }: Props) => {
             }
             const res = await createBooking(bookingData).unwrap()
             toast.success(res.message)
-            navigate('/my-booking')
+            navigate('/my-bookings')
         } catch (err: any) {
             toast.error(err?.data?.message)
         }
