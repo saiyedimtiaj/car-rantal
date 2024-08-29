@@ -14,9 +14,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { uploadImage } from "@/utils/uploadImage";
 import { useCreateCarMutation } from "@/redux/feature/cars/carsApi";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const AddCar = () => {
     const [image, setImage] = useState<string | null>(null);
+    const navigate = useNavigate()
     const [file, setFile] = useState<any>();
     const [createCar, { isLoading }] = useCreateCarMutation()
     const {
@@ -65,8 +67,7 @@ const AddCar = () => {
                 image: imageData
             }
             const res = await createCar(carData).unwrap();
-            console.log(carData);
-            console.log(res);
+            navigate('/dashboard/all-cars')
             toast.success(res?.message)
         } catch (err: any) {
             console.log(err);

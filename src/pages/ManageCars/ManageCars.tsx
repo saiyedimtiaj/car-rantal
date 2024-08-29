@@ -26,10 +26,12 @@ import { useAllCarsQuery } from "@/redux/feature/cars/carsApi"
 import { TCar } from "@/types/car.interface"
 import CarUpdateModal from "@/components/Dialog/CarUpdateModal"
 import { Link } from "react-router-dom"
+import DeleteConfirm from "@/components/Dialog/DeleteConfirm"
 
 function ManageCars() {
     const { data, isLoading, error } = useAllCarsQuery({});
     const [isOpen, setIsOpen] = useState(false);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [carId, setCarId] = useState('')
 
     const [sorting, setSorting] = useState<SortingState>([])
@@ -80,13 +82,15 @@ function ManageCars() {
             header: () => <div>Action</div>,
             cell: ({ row }) => {
                 const id = row.original._id;
-                console.log(id);
                 return <div className="flex items-center gap-2">
                     <Button onClick={() => {
                         setCarId(row.original._id);
                         setIsOpen(true)
                     }} className="px-2 py-0"><Edit3 size={15} /></Button>
-                    <Button className="px-2 py-0"><Trash2 size={15} /></Button>
+                    <Button onClick={() => {
+                        setCarId(id)
+                        setIsDeleteOpen(true)
+                    }} className="px-2 py-0"><Trash2 size={15} /></Button>
                 </div>
             },
         },
@@ -208,6 +212,7 @@ function ManageCars() {
                 </div>
             </div>
             <CarUpdateModal id={carId} isOpen={isOpen} setIsOpen={setIsOpen} />
+            <DeleteConfirm isOpen={isDeleteOpen} setIsOpen={setIsDeleteOpen} id={carId} />
         </div>
     );
 };
