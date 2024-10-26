@@ -5,46 +5,81 @@ import { useLoginUserMutation } from "@/redux/feature/auth/authApi";
 import { TUser, logInUser } from "@/redux/feature/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import verifyToken from "@/utils/verifyToken";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { ArrowLeft } from "lucide-react";
 
 const Signin = () => {
-    const [loginUser] = useLoginUserMutation();
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const [loginUser, { isLoading }] = useLoginUserMutation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const form = e.target as HTMLFormElement
-        const email = form.email.value;
-        const password = form.password.value;
-        const data = { email, password }
+        e.preventDefault();
+        const data = { email, password };
+
         try {
             const res = await loginUser(data).unwrap();
-            const userInfo = verifyToken(res?.data?.accessToken) as TUser
+            const userInfo = verifyToken(res?.data?.accessToken) as TUser;
             dispatch(logInUser({
-                token: res?.data?.accessToken, user: {
+                token: res?.data?.accessToken,
+                user: {
                     email: userInfo?.email,
-                    role: userInfo?.role
-                }
-            }))
-            toast.success(res.message)
-            navigate('/')
+                    role: userInfo?.role,
+                },
+            }));
+            toast.success(res.message);
+            navigate('/');
+        } catch (err) {
+            toast.error((err as any)?.data?.message);
         }
-        catch (err) {
-            toast.error((err as any)?.data?.message)
+    };
+
+    const handleDemoCredential = (role: string) => {
+        switch (role) {
+            case "user":
+                setEmail("user@gmail.com");
+                setPassword("123456");
+                break;
+            case "admin":
+                setEmail("admin@gmail.com");
+                setPassword("123456");
+                break;
+            default:
+                setEmail("");
+                setPassword("");
         }
-    }
+    };
+
     return (
         <div className="w-full lg:grid min-h-screen lg:grid-cols-2">
-            <div className="flex items-center justify-center py-12">
-                <form onSubmit={handleLogin} className="mx-auto grid w-[350px] gap-6">
-                    <div className="grid gap-2 text-center">
-                        <h1 className="text-3xl font-bold">Login</h1>
-                        <p className="text-balance text-muted-foreground">
-                            Enter your email below to login to your account
-                        </p>
+            <div className="flex flex-col items-center py-12">
+                <Button
+                    type="button"
+                    variant="ghost"
+                    className="self-start ml-4 mb-6 flex items-center gap-2"
+                    onClick={() => navigate('/')}
+                >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to Home
+                </Button>
+                <div className="grid gap-2 text-center">
+                    <h1 className="text-3xl font-bold">Login</h1>
+                    <p className="text-balance text-muted-foreground">
+                        Enter your email below to login to your account
+                    </p>
+                </div>
+                <div className="border-dashed border-2 border-gray-300 dark:border-gray-700 rounded-lg p-4">
+                    <h2 className="text-center font-semibold text-gray-700 dark:text-gray-300 mb-2">Demo Credentials</h2>
+                    <div className="flex justify-center gap-2">
+                        <Button variant="outline" onClick={() => handleDemoCredential("user")}>User</Button>
+                        <Button variant="outline" onClick={() => handleDemoCredential("admin")}>Admin</Button>
                     </div>
+                </div>
+                <form onSubmit={handleLogin} className="mx-auto grid w-[350px] gap-6">
                     <div className="grid gap-4">
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
@@ -52,6 +87,8 @@ const Signin = () => {
                                 id="email"
                                 type="email"
                                 placeholder="john@example.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
                         </div>
@@ -59,10 +96,17 @@ const Signin = () => {
                             <div className="flex items-center">
                                 <Label htmlFor="password">Password</Label>
                             </div>
-                            <Input id="password" type="password" placeholder="******" required />
+                            <Input
+                                id="password"
+                                type="password"
+                                placeholder="******"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
                         </div>
-                        <Button type="submit" className="w-full">
-                            Login
+                        <Button type="submit" className="w-full" disabled={isLoading}>
+                            {isLoading ? "Loading..." : "Login"}
                         </Button>
                     </div>
                     <div className="mt-4 text-center text-sm">

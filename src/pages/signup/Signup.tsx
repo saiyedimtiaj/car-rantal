@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "@/redux/feature/auth/authApi";
 import { toast } from "sonner";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const schema = z
     .object({
@@ -29,7 +30,7 @@ type FormData = z.infer<typeof schema>;
 
 const Signup = () => {
     const [registerUser] = useRegisterUserMutation();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -45,15 +46,14 @@ const Signup = () => {
             password: data.password,
             role: "user",
             address: "",
-            phone: ""
-        }
+            phone: "",
+        };
         try {
             const res = await registerUser(userInfo).unwrap();
-            toast.success(res?.message)
-            navigate('/signin')
-        }
-        catch (err) {
-            toast.error((err as any)?.data?.message)
+            toast.success(res?.message);
+            navigate('/signin');
+        } catch (err) {
+            toast.error((err as any)?.data?.message);
         }
     };
 
@@ -68,7 +68,15 @@ const Signup = () => {
                     />
                 </aside>
 
-                <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+                <main className="flex flex-col items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+                    {/* Back to Home Button */}
+                    <button
+                        onClick={() => navigate("/")}
+                        className="mb-6 flex items-center gap-2 text-blue-600 hover:text-blue-800"
+                    >
+                        <AiOutlineArrowLeft size={20} /> Back to Home
+                    </button>
+
                     <div className="max-w-xl lg:max-w-3xl">
                         <h1 className="mt-6 text-2xl font-bold sm:text-3xl md:text-4xl">
                             Register Account 🦑
@@ -80,13 +88,15 @@ const Signup = () => {
 
                         <form className="mt-5 grid grid-cols-6 gap-6" onSubmit={handleSubmit(onSubmit)}>
                             <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="FirstName" className="block text-sm font-medium">
+                                <label htmlFor="first_name" className="text-sm font-medium text-gray-700">
                                     First Name
                                 </label>
                                 <Input
                                     {...register("first_name")}
-                                    id="FirstName"
-                                    className="mt-1 w-full rounded-md text-sm shadow-sm"
+                                    type="text"
+                                    id="first_name"
+                                    placeholder="First Name"
+                                    className="mt-1 w-full"
                                 />
                                 {errors.first_name && (
                                     <p className="text-red-500 text-sm">{errors.first_name.message}</p>
@@ -94,13 +104,15 @@ const Signup = () => {
                             </div>
 
                             <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="LastName" className="block text-sm font-medium">
+                                <label htmlFor="last_name" className="text-sm font-medium text-gray-700">
                                     Last Name
                                 </label>
                                 <Input
                                     {...register("last_name")}
-                                    id="LastName"
-                                    className="mt-1 w-full rounded-md text-sm shadow-sm"
+                                    type="text"
+                                    id="last_name"
+                                    placeholder="Last Name"
+                                    className="mt-1 w-full"
                                 />
                                 {errors.last_name && (
                                     <p className="text-red-500 text-sm">{errors.last_name.message}</p>
@@ -108,11 +120,15 @@ const Signup = () => {
                             </div>
 
                             <div className="col-span-6">
-                                <label htmlFor="Email" className="block text-sm font-medium"> Email </label>
+                                <label htmlFor="email" className="text-sm font-medium text-gray-700">
+                                    Email
+                                </label>
                                 <Input
                                     {...register("email")}
-                                    id="Email"
-                                    className="mt-1 w-full rounded-md text-sm shadow-sm"
+                                    type="email"
+                                    id="email"
+                                    placeholder="Email"
+                                    className="mt-1 w-full"
                                 />
                                 {errors.email && (
                                     <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -120,12 +136,15 @@ const Signup = () => {
                             </div>
 
                             <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="Password" className="block text-sm font-medium"> Password </label>
+                                <label htmlFor="password" className="text-sm font-medium text-gray-700">
+                                    Password
+                                </label>
                                 <Input
                                     {...register("password")}
-                                    id="Password"
                                     type="password"
-                                    className="mt-1 w-full rounded-md text-sm shadow-sm"
+                                    id="password"
+                                    placeholder="Password"
+                                    className="mt-1 w-full"
                                 />
                                 {errors.password && (
                                     <p className="text-red-500 text-sm">{errors.password.message}</p>
@@ -133,14 +152,15 @@ const Signup = () => {
                             </div>
 
                             <div className="col-span-6 sm:col-span-3">
-                                <label htmlFor="PasswordConfirmation" className="block text-sm font-medium">
-                                    Password Confirmation
+                                <label htmlFor="password_confirmation" className="text-sm font-medium text-gray-700">
+                                    Confirm Password
                                 </label>
                                 <Input
                                     {...register("password_confirmation")}
-                                    id="PasswordConfirmation"
                                     type="password"
-                                    className="mt-1 w-full rounded-md text-sm shadow-sm"
+                                    id="password_confirmation"
+                                    placeholder="Confirm Password"
+                                    className="mt-1 w-full"
                                 />
                                 {errors.password_confirmation && (
                                     <p className="text-red-500 text-sm">{errors.password_confirmation.message}</p>
@@ -148,15 +168,14 @@ const Signup = () => {
                             </div>
 
                             <div className="col-span-6">
-                                <label htmlFor="trams" className="flex gap-4">
-                                    <Input
+                                <label className="flex gap-4">
+                                    <input
                                         {...register("trams")}
                                         type="checkbox"
-                                        id="trams"
-                                        className="size-5 rounded-md shadow-sm"
+                                        className="h-5 w-5 rounded-md border-gray-300 bg-white shadow-sm"
                                     />
-                                    <span className="text-sm">
-                                        I want to receive emails about events, product updates and company announcements.
+                                    <span className="text-sm text-gray-700">
+                                        I want to receive marketing emails.
                                     </span>
                                 </label>
                                 {errors.trams && (
@@ -164,25 +183,19 @@ const Signup = () => {
                                 )}
                             </div>
 
-
                             <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                                 <button
-                                    className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                                    type="submit"
+                                    className="w-full sm:w-auto inline-block rounded-lg bg-blue-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-700"
                                 >
-                                    Create an account
+                                    Create Account
                                 </button>
 
                                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                                     Already have an account?
-                                    <Link to="/signin" className="underline">Log in</Link>.
-                                </p>
-                            </div>
-                            <div className="col-span-6">
-                                <p className="text-sm text-gray-500">
-                                    By creating an account, you agree to our
-                                    <a className="underline cursor-pointer"> terms and conditions </a>
-                                    and
-                                    <a className=" underline cursor-pointer"> privacy policy</a>.
+                                    <Link to="/signin" className="text-gray-700 underline ml-2">
+                                        Sign in
+                                    </Link>
                                 </p>
                             </div>
                         </form>
