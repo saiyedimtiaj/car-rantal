@@ -8,7 +8,23 @@ const analysisApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getDashboardChart: builder.query({
+      query: () => ({
+        url: "/analysis/analysis",
+        method: "GET",
+      }),
+    }),
+    getRecentBooking: builder.query({
+      query: () => ({
+        url: "/analysis/recent-book",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetDashboardDataQuery } = analysisApi;
+export const {
+  useGetDashboardDataQuery,
+  useGetDashboardChartQuery,
+  useGetRecentBookingQuery,
+} = analysisApi;
