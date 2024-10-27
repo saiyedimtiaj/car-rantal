@@ -97,22 +97,29 @@ const Dashboard = () => {
                             </Button>
                         </SheetTrigger>
                         <SheetContent side="left" className="flex flex-col">
-                            <nav className="grid gap-2 text-lg font-medium">
-                                {navItems.map(({ to, label, icon: Icon }) => (
-                                    <NavLink
-                                        key={to}
-                                        to={to}
-                                        className={() =>
-                                            `flex items-center gap-4 rounded-xl px-3 py-2 transition-all ${pathname === to
-                                                ? "dark:bg-muted bg-[#F3F4F6] text-foreground"
-                                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                                            }`
-                                        }
-                                    >
-                                        <Icon className="h-5 w-5" />
-                                        {label}
-                                    </NavLink>
-                                ))}
+                            <nav className="gap-2 text-lg font-medium mt-5 flex flex-col justify-between min-h-[calc(100vh-60px)]">
+                                <div>
+                                    {navItems.map(({ to, label, icon: Icon }) => (
+                                        <NavLink
+                                            key={to}
+                                            to={to}
+                                            className={() =>
+                                                `flex items-center gap-4 rounded-xl px-3 py-2 transition-all ${pathname === to
+                                                    ? "dark:bg-muted bg-[#F3F4F6] text-foreground"
+                                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                                }`
+                                            }
+                                        >
+                                            <Icon className="h-5 w-5" />
+                                            {label}
+                                        </NavLink>
+                                    ))}
+                                </div>
+                                <div className="flex items-center gap-4 rounded-xl px-3 py-2 transition-all  text-muted-foreground hover:bg-muted hover:text-foreground
+                                            ">
+                                    <Home className="w-5 h-5" />
+                                    <Link to='/' >Home</Link>
+                                </div>
                             </nav>
                         </SheetContent>
                     </Sheet>
